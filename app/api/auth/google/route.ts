@@ -7,6 +7,8 @@ const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '';
 const client = new OAuth2Client(clientId);
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_for_dev_only_change_in_prod';
 const SUPER_ADMIN_EMAIL = process.env.SUPER_ADMIN_EMAIL || 'prabhakar16032004@gmail.com';
+const isProduction = process.env.NODE_ENV === 'production';
+
 
 export async function POST(req: Request) {
   try {
@@ -42,8 +44,8 @@ export async function POST(req: Request) {
     // Set HTTP-only Cookie
     response.cookies.set('session', token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'none',
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
       path: '/',
       maxAge: 60 * 60 * 12 // 12 hours
     });

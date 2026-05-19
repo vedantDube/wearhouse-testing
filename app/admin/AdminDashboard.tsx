@@ -10,27 +10,27 @@ export default function AdminDashboard({ role }: { role: string }) {
   const [activeTab, setActiveTab] = useState<'users' | 'timeline' | 'claims'>('users');
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-[#E0E0E0] p-6 lg:p-12 font-sans selection:bg-[#C5A059] selection:text-white border-8 border-[#1A1A1A] flex flex-col h-screen overflow-hidden">
+    <div className="min-h-screen bg-slate-50 text-slate-800 p-6 lg:p-12 font-sans selection:bg-amber-500 selection:text-white border-8 border-slate-200 flex flex-col h-screen overflow-hidden transition-colors">
       
       {/* Header */}
       <header className="flex justify-between items-center mb-8 shrink-0">
         <div className="flex items-center space-x-4">
-          <div className="w-10 h-10 bg-[#C5A059] flex items-center justify-center shadow-[0_0_15px_rgba(197,160,89,0.3)]">
-            <Activity className="text-[#0A0A0A]" size={24} strokeWidth={2.5} />
+          <div className="w-10 h-10 bg-amber-500 flex items-center justify-center shadow-md rounded-md">
+            <Activity className="text-white" size={24} strokeWidth={2.5} />
           </div>
           <div>
-            <h1 className="text-2xl font-serif italic text-[#F5F2ED] tracking-wide">Command Center</h1>
-            <p className="text-[#888888] text-[10px] tracking-[0.2em] uppercase mt-0.5">Role: {role}</p>
+            <h1 className="text-2xl font-serif italic text-slate-900 tracking-wide">Command Center</h1>
+            <p className="text-slate-500 text-[10px] tracking-[0.2em] uppercase mt-0.5 font-bold">Role: {role}</p>
           </div>
         </div>
-        <div className="flex bg-[#111111] border border-[#333333] rounded-sm p-1 items-center">
+        <div className="flex bg-white border border-slate-200 rounded-md p-1 items-center shadow-sm">
           <TabButton id="users" icon={<Users size={16} />} label="Users" activeTab={activeTab} setActive={setActiveTab} />
           <TabButton id="timeline" icon={<Clock size={16} />} label="Timeline" activeTab={activeTab} setActive={setActiveTab} />
           <TabButton id="claims" icon={<FileWarning size={16} />} label="Claims" activeTab={activeTab} setActive={setActiveTab} />
-          <div className="h-4 w-px bg-[#333333] mx-2"></div>
-          <Link href="/receiver" className="text-[#888888] hover:text-[#C5A059] text-[10px] uppercase font-bold tracking-widest px-2 transition-colors">Receiver</Link>
-          <Link href="/inspector" className="text-[#888888] hover:text-[#C5A059] text-[10px] uppercase font-bold tracking-widest px-2 transition-colors">Inspector</Link>
-          <div className="h-4 w-px bg-[#333333] mx-2"></div>
+          <div className="h-4 w-px bg-slate-200 mx-2"></div>
+          <Link href="/receiver" className="text-slate-500 hover:text-amber-600 text-[10px] uppercase font-bold tracking-widest px-2 transition-colors">Receiver</Link>
+          <Link href="/inspector" className="text-slate-500 hover:text-amber-600 text-[10px] uppercase font-bold tracking-widest px-2 transition-colors">Inspector</Link>
+          <div className="h-4 w-px bg-slate-200 mx-2"></div>
           <button 
             onClick={async () => {
               try {
@@ -38,7 +38,7 @@ export default function AdminDashboard({ role }: { role: string }) {
               } catch (e) {}
               router.push('/login');
             }}
-            className="text-[#FF4444] hover:text-[#FF9999] text-[10px] uppercase font-bold tracking-widest px-2 transition-colors"
+            className="text-red-600 hover:text-red-700 text-[10px] uppercase font-bold tracking-widest px-2 transition-colors"
           >
             Sign Out
           </button>
@@ -47,7 +47,7 @@ export default function AdminDashboard({ role }: { role: string }) {
 
       {/* Main Content Area */}
       <main className="flex-1 overflow-hidden relative">
-        <div className="absolute inset-0 bg-[#111111] border border-[#333333] shadow-2xl flex flex-col">
+        <div className="absolute inset-0 bg-white border border-slate-200 shadow-xl flex flex-col rounded-md overflow-hidden">
           {activeTab === 'users' && <UsersTab role={role} />}
           {activeTab === 'timeline' && <TimelineTab role={role} />}
           {activeTab === 'claims' && <ClaimsTab />}
@@ -66,7 +66,7 @@ function TabButton({ id, icon, label, activeTab, setActive }: any) {
     <button 
       onClick={() => setActive(id)}
       className={`flex items-center space-x-2 px-6 py-2.5 text-xs font-medium tracking-wider uppercase transition-all duration-300 ${
-        isActive ? 'bg-[#1A1A1A] text-[#C5A059] border border-[#C5A059]/30 shadow-[0_0_10px_rgba(197,160,89,0.1)]' : 'text-[#666666] hover:text-[#E0E0E0] hover:bg-[#151515] border border-transparent'
+        isActive ? 'bg-amber-50 text-amber-700 border border-amber-200 shadow-sm rounded' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50 border border-transparent rounded'
       }`}
     >
       {icon}<span>{label}</span>
@@ -137,47 +137,47 @@ function UsersTab({ role }: { role: string }) {
     <div className="flex flex-col h-full p-8 space-y-8 overflow-y-auto custom-scrollbar">
       <div className="flex justify-between items-end">
         <div>
-           <h2 className="text-xl font-light text-[#F5F2ED] uppercase tracking-widest">User Management</h2>
-           <p className="text-[#888888] text-xs tracking-wider mt-1">Manage personnel access and roles.</p>
+           <h2 className="text-xl font-light text-slate-900 uppercase tracking-widest">User Management</h2>
+           <p className="text-slate-500 text-xs tracking-wider mt-1 font-medium">Manage personnel access and roles.</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-1 border border-[#333333] bg-[#0A0A0A] p-6 h-fit">
-          <h3 className="text-sm uppercase tracking-widest text-[#C5A059] mb-6">Authorize Personnel</h3>
+        <div className="lg:col-span-1 border border-slate-200 bg-slate-50 p-6 h-fit rounded-md shadow-sm">
+          <h3 className="text-sm font-semibold uppercase tracking-widest text-amber-600 mb-6">Authorize Personnel</h3>
           <form onSubmit={handleCreate} className="space-y-4">
             <div>
-              <label className="block text-[10px] uppercase tracking-wider text-[#666666] mb-1">Email Address</label>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Email Address</label>
               <input type="email" required value={email} onChange={e => setEmail(e.target.value)} 
-                className="w-full bg-[#111111] border border-[#333333] text-[#E0E0E0] px-4 py-2 text-sm focus:border-[#C5A059] focus:outline-none transition-colors" />
+                className="w-full bg-white border border-slate-300 text-slate-800 px-4 py-2 text-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none transition-all rounded" />
             </div>
             <div>
-              <label className="block text-[10px] uppercase tracking-wider text-[#666666] mb-1">Full Name (Optional)</label>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Full Name (Optional)</label>
               <input type="text" value={name} onChange={e => setName(e.target.value)} 
-                className="w-full bg-[#111111] border border-[#333333] text-[#E0E0E0] px-4 py-2 text-sm focus:border-[#C5A059] focus:outline-none transition-colors" />
+                className="w-full bg-white border border-slate-300 text-slate-800 px-4 py-2 text-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none transition-all rounded" />
             </div>
             <div>
-              <label className="block text-[10px] uppercase tracking-wider text-[#666666] mb-1">Assigned Role</label>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">Assigned Role</label>
               <select value={targetRole} onChange={e => setTargetRole(e.target.value)}
-                className="w-full bg-[#111111] border border-[#333333] text-[#E0E0E0] px-4 py-2 text-sm focus:border-[#C5A059] focus:outline-none transition-colors">
+                className="w-full bg-white border border-slate-300 text-slate-800 px-4 py-2 text-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none transition-all rounded">
                 {availableRoles.map(r => <option key={r} value={r}>{r.replace('_', ' ')}</option>)}
               </select>
             </div>
-            {error && <p className="text-xs text-[#FF4444] mt-2">{error}</p>}
-            {success && <p className="text-xs text-[#34A853] mt-2">{success}</p>}
-            <button type="submit" className="w-full mt-4 bg-[#1A1A1A] border border-[#333333] hover:border-[#C5A059] text-[#E0E0E0] px-4 py-3 text-xs uppercase tracking-widest transition-colors font-medium">
+            {error && <p className="text-xs text-red-600 mt-2 font-medium">{error}</p>}
+            {success && <p className="text-xs text-green-600 dark:text-[#34A853] mt-2 font-medium">{success}</p>}
+            <button type="submit" className="w-full mt-4 bg-white border border-slate-300 hover:border-amber-500 hover:text-amber-700 hover:bg-amber-50 text-slate-700 px-4 py-3 text-xs uppercase tracking-widest transition-all font-semibold rounded">
               Grant Access
             </button>
           </form>
         </div>
 
-        <div className="lg:col-span-2 border border-[#333333] bg-[#0A0A0A] overflow-hidden flex flex-col">
-          <div className="p-4 border-b border-[#333333] bg-[#111111]">
-            <h3 className="text-xs uppercase tracking-widest text-[#E0E0E0]">Active Personnel Directory</h3>
+        <div className="lg:col-span-2 border border-slate-200 bg-white overflow-hidden flex flex-col rounded-md shadow-sm">
+          <div className="p-4 border-b border-slate-200 bg-slate-50">
+            <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-700">Active Personnel Directory</h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm whitespace-nowrap">
-              <thead className="bg-[#111111] text-[#666666] text-[10px] uppercase tracking-wider">
+              <thead className="bg-slate-50 text-slate-500 text-[10px] uppercase tracking-wider">
                 <tr>
                   <th className="px-6 py-4 font-medium">Email</th>
                   <th className="px-6 py-4 font-medium">Name</th>
@@ -186,15 +186,15 @@ function UsersTab({ role }: { role: string }) {
                   <th className="px-6 py-4 font-medium text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#1A1A1A] text-[#B0B0B0]">
+              <tbody className="divide-y divide-slate-100 text-slate-600">
                 {loading ? (
                   <tr><td colSpan={5} className="px-6 py-8 text-center text-xs">Loading directory...</td></tr>
                 ) : users.map(user => (
-                  <tr key={user.id} className="hover:bg-[#111111]/50 transition-colors">
-                    <td className="px-6 py-4 font-mono text-[11px] text-[#E0E0E0]">{user.email}</td>
-                    <td className="px-6 py-4">{user.email.split('@')[0]}</td>
+                  <tr key={user.id} className="hover:bg-slate-50 transition-colors">
+                    <td className="px-6 py-4 font-mono text-[11px] text-slate-800 font-medium">{user.email}</td>
+                    <td className="px-6 py-4 font-medium">{user.email.split('@')[0]}</td>
                     <td className="px-6 py-4">
-                      <span className="bg-[#1A1A1A] border border-[#333333] px-2 py-1 text-[10px] tracking-wide uppercase text-[#C5A059]">
+                      <span className="bg-amber-50 border border-amber-100 px-2 py-1 text-[10px] tracking-wide uppercase text-amber-600 font-bold rounded-sm">
                         {user.role.replace('_', ' ')}
                       </span>
                     </td>
@@ -203,7 +203,7 @@ function UsersTab({ role }: { role: string }) {
                       {(role === 'ADMIN' && user.role !== 'SUPER_ACCESS' && user.role !== 'ADMIN') ? (
                         <button 
                           onClick={() => handleDelete(user.id, user.email)} 
-                          className="text-[#FF4444] hover:text-[#FF9999] uppercase font-bold tracking-widest text-[10px]"
+                          className="text-red-500 hover:text-red-700 uppercase font-bold tracking-widest text-[10px]"
                         >
                           Revoke
                         </button>
@@ -269,56 +269,56 @@ function TimelineTab({ role }: { role: string }) {
 
   return (
     <div className="flex flex-col h-full relative">
-      <div className="p-8 border-b border-[#333333] shrink-0">
-        <h2 className="text-xl font-light text-[#F5F2ED] uppercase tracking-widest mb-4">Package Timeline</h2>
+      <div className="p-8 border-b border-slate-200 shrink-0 bg-slate-50">
+        <h2 className="text-xl font-light text-slate-900 uppercase tracking-widest mb-4">Package Timeline</h2>
         <form onSubmit={handleSearch} className="flex max-w-xl">
-          <div className="flex-1 flex bg-[#0A0A0A] border border-[#333333] focus-within:border-[#C5A059] transition-colors">
-            <div className="pl-4 flex items-center justify-center text-[#666666]"><Search size={16} /></div>
+          <div className="flex-1 flex bg-white border border-slate-300 focus-within:border-amber-400 focus-within:ring-1 focus-within:ring-amber-400 transition-all rounded-l">
+            <div className="pl-4 flex items-center justify-center text-slate-400"><Search size={16} /></div>
             <input 
               type="text" 
               placeholder="Scan or enter Tracking AWB..." 
               value={awb} onChange={e => setAwb(e.target.value)}
-              className="w-full bg-transparent border-none text-[#E0E0E0] px-4 py-3 text-sm focus:outline-none font-mono placeholder-[#444444]" 
+              className="w-full bg-transparent border-none text-slate-800 px-4 py-3 text-sm focus:outline-none font-mono placeholder-slate-400" 
             />
           </div>
-          <button type="submit" disabled={loading} className="px-8 bg-[#1A1A1A] border-y border-r border-[#333333] hover:bg-[#C5A059] hover:text-[#0A0A0A] transition-colors uppercase tracking-widest text-[11px] font-bold">
+          <button type="submit" disabled={loading} className="px-8 bg-slate-100 border-y border-r border-slate-300 hover:bg-amber-500 hover:text-white text-slate-600 transition-colors uppercase tracking-widest text-[11px] font-bold rounded-r">
             Track
           </button>
         </form>
-        {error && <p className="text-xs text-[#FF4444] mt-3">{error}</p>}
+        {error && <p className="text-xs text-red-600 mt-3 font-medium">{error}</p>}
       </div>
 
-      <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+      <div className="flex-1 overflow-y-auto p-8 custom-scrollbar bg-white">
         {loading ? (
-          <div className="text-center text-[#666666] text-xs uppercase tracking-widest">Searching records...</div>
+          <div className="text-center text-slate-500 text-xs uppercase tracking-widest font-medium">Searching records...</div>
         ) : manifest ? (
           <div className="max-w-2xl mx-auto py-4">
-            <div className="mb-12 flex justify-between items-end border-b border-[#333333] pb-6">
+            <div className="mb-12 flex justify-between items-end border-b border-slate-200 pb-6">
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-[#666666] mb-1">Marketplace / Order</p>
-                <p className="text-lg text-[#F5F2ED]">{manifest.marketplace} <span className="text-[#888888] mx-2">/</span> <span className="font-mono text-sm">{manifest.orderId}</span></p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Marketplace / Order</p>
+                <p className="text-lg text-slate-800 font-medium">{manifest.marketplace} <span className="text-slate-300 mx-2">/</span> <span className="font-mono text-sm text-slate-600">{manifest.orderId}</span></p>
               </div>
               <div className="text-right">
-                <p className="text-[10px] uppercase tracking-widest text-[#666666] mb-1">Status</p>
-                <p className="text-[#C5A059] text-xs tracking-wider uppercase font-medium">{manifest.status.replace(/_/g, ' ')}</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Status</p>
+                <p className="text-amber-600 text-xs tracking-wider uppercase font-bold">{manifest.status.replace(/_/g, ' ')}</p>
               </div>
             </div>
 
-            <div className="relative border-l border-[#333333] ml-4 space-y-12 pb-12">
+            <div className="relative border-l-2 border-slate-200 ml-4 space-y-12 pb-12">
               {events.map((ev, i) => (
                 <div key={i} className="relative pl-8 group">
-                  <div className="absolute -left-2 top-1.5 w-4 h-4 bg-[#111111] border-2 border-[#C5A059] rounded-full shadow-[0_0_8px_rgba(197,160,89,0.5)]"></div>
-                  <h4 className="text-sm font-medium text-[#E0E0E0] uppercase tracking-wider">{ev.title}</h4>
+                  <div className="absolute -left-[9px] top-1.5 w-4 h-4 bg-white border-2 border-amber-500 rounded-full shadow-sm group-hover:bg-amber-50 transition-all"></div>
+                  <h4 className="text-sm font-bold text-slate-700 uppercase tracking-wider">{ev.title}</h4>
                   <div className="flex items-center space-x-3 mt-1.5">
-                    <p className="text-xs font-mono text-[#888888]">{new Date(ev.time).toLocaleString()}</p>
+                    <p className="text-xs font-mono text-slate-500">{new Date(ev.time).toLocaleString()}</p>
                   </div>
                 </div>
               ))}
-              {events.length === 0 && <p className="pl-8 text-xs text-[#666666]">No history recorded.</p>}
+              {events.length === 0 && <p className="pl-8 text-xs text-slate-500 font-medium">No history recorded.</p>}
             </div>
           </div>
         ) : (
-          !error && <div className="text-center text-[#444444] text-xs uppercase tracking-widest h-full flex items-center justify-center">Awaiting query parameters</div>
+          !error && <div className="text-center text-slate-400 text-xs uppercase tracking-widest h-full flex items-center justify-center font-bold">Awaiting query parameters</div>
         )}
       </div>
     </div>
@@ -358,16 +358,16 @@ function ClaimsTab() {
 
   return (
     <div className="flex flex-col h-full p-8 space-y-6 overflow-hidden">
-      <div className="shrink-0 flex justify-between items-end border-b border-[#333333] pb-4">
+      <div className="shrink-0 flex justify-between items-end border-b border-slate-200 pb-4">
          <div>
-            <h2 className="text-xl font-light text-[#F5F2ED] uppercase tracking-widest">Claims Staging</h2>
-            <p className="text-[#888888] text-xs tracking-wider mt-1">Pending marketplace reimbursements.</p>
+            <h2 className="text-xl font-light text-slate-900 uppercase tracking-widest">Claims Staging</h2>
+            <p className="text-slate-500 text-xs tracking-wider mt-1 font-medium">Pending marketplace reimbursements.</p>
          </div>
       </div>
 
-      <div className="flex-1 overflow-x-auto bg-[#0A0A0A] border border-[#333333]">
+      <div className="flex-1 overflow-x-auto bg-white border border-slate-200 rounded-md shadow-sm">
         <table className="w-full text-left text-sm whitespace-nowrap">
-          <thead className="bg-[#111111] text-[#666666] text-[10px] uppercase tracking-wider sticky top-0 z-10 border-b border-[#333333]">
+          <thead className="bg-slate-50 text-slate-500 text-[10px] uppercase tracking-wider sticky top-0 z-10 border-b border-slate-200">
             <tr>
               <th className="px-6 py-4 font-medium">Tracking AWB</th>
               <th className="px-6 py-4 font-medium">Order ID</th>
@@ -376,7 +376,7 @@ function ClaimsTab() {
               <th className="px-6 py-4 font-medium text-right">Action</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#1A1A1A] text-[#B0B0B0]">
+          <tbody className="divide-y divide-slate-100 text-slate-600">
             {loading ? (
               <tr><td colSpan={5} className="px-6 py-8 text-center text-xs">Loading items...</td></tr>
             ) : claims.map((c: any) => {
@@ -384,21 +384,21 @@ function ClaimsTab() {
               const cond = inspection?.isMissingItems ? 'MISSING ITEMS' : 'INSPECTED';
               const ev = inspection?.evidenceUrl;
               return (
-                <tr key={c.id} className="hover:bg-[#111111]/50 transition-colors">
-                  <td className="px-6 py-4 font-mono text-[11px] text-[#E0E0E0]">{c.trackingAwb}</td>
+                <tr key={c.id} className="hover:bg-slate-50 transition-colors">
+                  <td className="px-6 py-4 font-mono text-[11px] text-slate-800 font-medium">{c.trackingAwb}</td>
                   <td className="px-6 py-4 font-mono text-[11px]">{c.orderId}</td>
-                  <td className="px-6 py-4 text-xs font-medium text-[#FF9999]">{cond}</td>
+                  <td className="px-6 py-4 text-xs font-bold text-red-500">{cond}</td>
                   <td className="px-6 py-4">
                     {ev ? (
-                      <a href={ev} target="_blank" rel="noreferrer" className="inline-flex items-center space-x-1 text-[#C5A059] hover:text-white text-xs border border-[#C5A059]/30 px-2 py-1 bg-[#1A1A1A]">
+                      <a href={ev} target="_blank" rel="noreferrer" className="inline-flex items-center space-x-1 text-amber-600 hover:text-amber-700 hover:bg-amber-50 text-xs border border-amber-200 px-2 py-1 bg-white rounded-sm transition-colors">
                         <span>View Artifact</span> <ExternalLink size={10} />
                       </a>
                     ) : (
-                      <span className="text-[10px] text-[#666666]">None attached</span>
+                      <span className="text-[10px] text-slate-400 font-medium">None attached</span>
                     )}
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <button onClick={() => handleResolve(c.id)} className="text-[10px] uppercase font-bold tracking-widest text-[#34A853] hover:text-white transition-colors">
+                    <button onClick={() => handleResolve(c.id)} className="text-[10px] uppercase font-bold tracking-widest text-green-600 hover:text-green-700 transition-colors">
                       Mark Resolved
                     </button>
                   </td>

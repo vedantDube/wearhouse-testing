@@ -15,6 +15,9 @@ export async function middleware(request: NextRequest) {
 
   // Enforce session presence
   if (!session) {
+    if (pathname.startsWith('/api/')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
@@ -39,6 +42,11 @@ export async function middleware(request: NextRequest) {
     });
   } catch (err) {
     // Invalid or expired token
+    if (pathname.startsWith('/api/')) {
+      const response = NextResponse.json({ error: 'Unauthorized', message: 'Invalid or expired session' }, { status: 401 });
+      response.cookies.delete('session');
+      return response;
+    }
     const response = NextResponse.redirect(new URL('/login', request.url));
     response.cookies.delete('session');
     return response;

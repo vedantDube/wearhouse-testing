@@ -1,3 +1,4 @@
+// Singleton Prisma Client instantiation to prevent connection pool exhaustion during development
 import { PrismaClient } from '@prisma/client';
 
 const globalForPrisma = globalThis as unknown as {

@@ -44,6 +44,12 @@ enum HandshakeType {
   RECEIVER_TO_INSPECTOR
 }
 
+enum EvidenceType {
+  RECEIVER_REJECTION
+  INSPECTION_VIDEO
+  PRODUCT_DAMAGE_PHOTO
+}
+
 model User {
   id               String       @id @default(uuid())
   email            String       @unique
@@ -54,6 +60,7 @@ model User {
   handshakesSent   Handshake[]  @relation("Sender")
   handshakesRecv   Handshake[]  @relation("Receiver")
   inspections      Inspection[]
+  evidences        Evidence[]
 }
 
 model Manifest {
@@ -69,6 +76,7 @@ model Manifest {
   inspection       Inspection?
   returnItems      ReturnItem[]
   disputes         Dispute[]
+  evidences        Evidence[]
 }
 
 model Handshake {
@@ -123,6 +131,7 @@ model ReturnItem {
   order            Order          @relation(fields: [orderId], references: [id])
   manifest         Manifest?      @relation(fields: [manifestId], references: [id])
   reimbursement    Reimbursement?
+  evidences        Evidence[]
 }
 
 model Reimbursement {
@@ -158,4 +167,28 @@ model RemovalShipment {
   sku              String
   shippedQuantity  Int
   disposition      String
+}
+
+model Evidence {
+  id           String      @id @default(uuid())
+  driveFileId  String
+  driveLink    String
+  type         EvidenceType
+  reason       String?
+  rawReference String?
+  uploadedById String?
+  manifestId   String?
+  returnItemId String?
+  createdAt    DateTime    @default(now())
+
+  manifest     Manifest?   @relation(fields: [manifestId], references: [id])
+  returnItem   ReturnItem? @relation(fields: [returnItemId], references: [id])
+  user         User?       @relation(fields: [uploadedById], references: [id])
+}
+
+model Video {
+  id        String   @id @default(uuid())
+  name      String
+  url       String
+  createdAt DateTime @default(now())
 }
